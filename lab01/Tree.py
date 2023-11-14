@@ -19,8 +19,7 @@ class Tree:
                  labels: List[bool],
                  types: List[FeaturesTypes],
                  h: int = 1,
-                 min_split_points: int = 1,
-                 height: int = 0):
+                 min_split_points: int = 1):
         """
         Parameters
         ----------
@@ -45,10 +44,10 @@ class Tree:
         self.points = PointSet(features, labels, types)
         self.points.add_min_split_points(min_split_points)
         ID_best_gini_gain = self.points.get_best_gain()[0]
-        self.height = height
+        self.height = h
         self.types = types
         
-        if ID_best_gini_gain != None and height < h:
+        if ID_best_gini_gain != None and h > 0:
             
             if types[ID_best_gini_gain] == FeaturesTypes.BOOLEAN:
                 features_0 = []
@@ -64,8 +63,8 @@ class Tree:
                         labels_1.append(labels[i])
                 
                 self.ID = ID_best_gini_gain
-                self.left_node = Tree(features_0, labels_0, types, h, min_split_points, height + 1)
-                self.right_node = Tree(features_1, labels_1, types, h, min_split_points, height + 1)
+                self.left_node = Tree(features_0, labels_0, types, h - 1, min_split_points)
+                self.right_node = Tree(features_1, labels_1, types, h - 1, min_split_points)
                 
             elif types[ID_best_gini_gain] == FeaturesTypes.CLASSES:
                 features_0 = []
@@ -81,8 +80,8 @@ class Tree:
                         labels_1.append(labels[i])
                 
                 self.ID = ID_best_gini_gain
-                self.left_node = Tree(features_0, labels_0, types, h, min_split_points, height + 1)
-                self.right_node = Tree(features_1, labels_1, types, h, min_split_points, height + 1)
+                self.left_node = Tree(features_0, labels_0, types, h - 1, min_split_points)
+                self.right_node = Tree(features_1, labels_1, types, h - 1, min_split_points)
                     
             else:
                 features_0 = []
@@ -98,8 +97,8 @@ class Tree:
                         labels_1.append(labels[i])
                 
                 self.ID = ID_best_gini_gain
-                self.left_node = Tree(features_0, labels_0, types, h, min_split_points, height + 1)
-                self.right_node = Tree(features_1, labels_1, types, h, min_split_points, height + 1)
+                self.left_node = Tree(features_0, labels_0, types, h - 1, min_split_points)
+                self.right_node = Tree(features_1, labels_1, types, h - 1, min_split_points)
             
         else:
             self.ID = None
