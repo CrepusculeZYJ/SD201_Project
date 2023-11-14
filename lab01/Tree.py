@@ -102,10 +102,7 @@ class Tree:
             
         else:
             self.ID = None
-            cnt = 0
-            for label in labels:
-                if label == True:
-                    cnt += 1
+            cnt = sum(labels)
                 
             if cnt >= len(labels) - cnt:
                 self.decision = True

@@ -51,15 +51,10 @@ class PointSet:
         float
             The Gini score of the set of points
         """
-        label_dict = {}
-        for label in self.labels:
-            if label not in label_dict:
-                label_dict[label] = 0
-            label_dict[label] += 1
-        gini = 0
-        for label in label_dict:
-            gini += (label_dict[label]/len(self.labels))**2
-        return 1 - gini
+        label_0 = sum(self.labels == False)
+        label_1 = sum(self.labels == True)
+        gini = 1 - (label_0/(label_0 + label_1))**2 - (label_1/(label_0 + label_1))**2
+        return gini
         # raise NotImplementedError('Please implement this function for Question 1')
 
     def get_best_gain(self) -> Tuple[int, float]:
